@@ -11,7 +11,7 @@ from app.application.use_cases.user.exceptions import InvalidEmailFormat
     ]
 )
 @pytest.mark.asyncio
-async def test_create_user_request_dto_should_raise_on_invalid_data(not_valid_data):
+async def test_create_user_request_dto_should_raise_on_invalid_data(not_valid_data: dict[str, str]) -> None:
     # Arrange
     dto_data = not_valid_data
 

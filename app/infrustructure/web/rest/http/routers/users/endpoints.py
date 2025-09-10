@@ -19,7 +19,7 @@ async def create_user(
     body: CreateUserSchema,
     user_controller: Annotated[UserController, Depends(get_user_controller)],
 ) -> Any:
-    rs = user_controller.create_user(
+    rs = await user_controller.create_user(
         first_name=body.first_name,
         last_name=body.last_name,
         email=str(body.email),

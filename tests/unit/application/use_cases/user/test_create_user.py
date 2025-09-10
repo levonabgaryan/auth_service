@@ -4,7 +4,6 @@ import pytest
 
 from app.application.use_cases.user.create_user import CreateUserUseCase
 from app.application.use_cases.user.dtos import CreateUserRequest
-from app.application.use_cases.user.exceptions import InvalidPasswordFormat, InvalidEmailFormat
 
 
 @pytest.mark.parametrize(
@@ -14,7 +13,7 @@ from app.application.use_cases.user.exceptions import InvalidPasswordFormat, Inv
     ]
 )
 @pytest.mark.asyncio
-async def test_create_user_use_case_with_valid_dto(dto_data):
+async def test_create_user_use_case_with_valid_dto(dto_data: dict[str, str]) -> None:
     # Arrange
     valid_request_dto = CreateUserRequest(**dto_data)
     user_repo = AsyncMock()
