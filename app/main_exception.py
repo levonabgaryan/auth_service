@@ -1,0 +1,27 @@
+from typing import Any, Optional
+
+
+
+class MainException(Exception):
+    def __init__(
+        self,
+        message: str = "An error occurred",
+        error_code: str | None = None,
+        details: Optional[dict[str, Any]] = None,
+    ) -> None:
+        self.message = message
+        self.error_code = error_code
+        self.details = details or {}
+        super().__init__()
+
+
+    def __repr__(self) -> str:
+        return (
+            f"{self.__class__.__name__}"
+            f"(message={self.message}, error_code={self.error_code}, details={self.details})"
+        )
+
+    def __str__(self) -> str:
+        return f"[{self.error_code}] {self.message}" + (
+            f" | Details: {self.details}" if self.details else ""
+        )
