@@ -15,13 +15,17 @@ class OperationResult[T]:
 
     @property
     def operation_error(self) -> OperationError:
-        assert isinstance(self.value, OperationError), "No operation success value"
-        return self.value
+        if isinstance(self.value, OperationError):
+            return self.value
+        else:
+            raise AttributeError(f"Instance of {type(self).__name__} has no attribute 'operation_error'")
 
     @property
     def success(self) -> T:
-        assert not isinstance(self.value, OperationError), "No operation error value"
-        return self.value
+        if not isinstance(self.value, OperationError):
+            return self.value
+        else:
+            raise AttributeError(f"Instance of {type(self).__name__} has no attribute 'success'")
 
     @property
     def is_success(self) -> bool:
@@ -34,4 +38,3 @@ class OperationResult[T]:
     @classmethod
     def from_operation_error(cls, operation_error: OperationError) -> Self:
         return cls(value=operation_error)
-

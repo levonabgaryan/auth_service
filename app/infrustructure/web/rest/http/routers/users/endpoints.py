@@ -4,8 +4,8 @@ from fastapi import APIRouter
 from fastapi.params import Depends
 
 from app.interface_adapters.controllers.user_controller import UserController
-from .schemas import CreateUserSchema
 from app.entrypoint.containers.app_container import app_container
+from .schemas import CreateUserSchema
 
 router: APIRouter = APIRouter(prefix="/users", tags=["users"])
 
@@ -27,7 +27,7 @@ async def create_user(
     )
 
     if rs.is_success:
-        print(rs.value, '++++++++++++++++++++++++++')
+        print(rs.success, '++++++++++++++++++++++++++')
         return 200
 
     return rs.value

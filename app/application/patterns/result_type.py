@@ -9,7 +9,6 @@ class Error:
     details: dict[str, Any] | None = field(default=None)
 
 
-
 @dataclass(frozen=True)
 class Result[T]:
     value: T | Error
@@ -20,13 +19,17 @@ class Result[T]:
 
     @property
     def success_value(self) -> T:
-        assert not isinstance(self.value, Error), "No success value"
-        return self.value
+        if not isinstance(self.value, Error):
+            return self.value
+        else:
+            raise AttributeError(f"Instance of {type(self).__name__} has no attribute 'success_value'")
 
     @property
     def error_value(self) -> Error:
-        assert isinstance(self.value, Error), "No error value"
-        return self.value
+        if isinstance(self.value, Error):
+            return self.value
+        else:
+            raise AttributeError(f"Instance of {type(self).__name__} has no attribute 'error_value'")
 
     @classmethod
     def from_success(cls, value: T) -> "Result[T]":
