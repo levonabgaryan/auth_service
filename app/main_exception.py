@@ -12,6 +12,7 @@ class MainException(Exception):
         self.message = message
         self.error_code = error_code
         self.details = details or {}
+        self.exc_type = self.__class__.__name__
         super().__init__()
 
 

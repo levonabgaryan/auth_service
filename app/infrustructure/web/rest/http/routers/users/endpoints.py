@@ -26,8 +26,6 @@ async def create_user(
         password=body.password
     )
 
-    if rs.is_success:
-        print(rs.success, '++++++++++++++++++++++++++')
+    if rs.operation_success_value:
         return 200
-
-    return rs.value
+    return 500

@@ -1,5 +1,7 @@
-from dataclasses import dataclass, field
-from typing import Any
+from dataclasses import dataclass, field, InitVar
+from typing import Any, Self
+
+from app.main_exception import MainException
 
 
 @dataclass(frozen=True)
@@ -8,33 +10,24 @@ class Error:
     error_code: str | None = field(default=None)
     details: dict[str, Any] | None = field(default=None)
 
+    @classmethod
+    def from_main_exception(cls, exc: MainException) -> Self:
+        return cls(
+            message=exc.message,
+            error_code=exc.error_code,
+            details=exc.details
+        )
+
 
 @dataclass(frozen=True)
 class Result[T]:
-    value: T | Error
-
-    @property
-    def is_success(self) -> bool:
-        return not isinstance(self.value, Error)
-
-    @property
-    def success_value(self) -> T:
-        if not isinstance(self.value, Error):
-            return self.value
-        else:
-            raise AttributeError(f"Instance of {type(self).__name__} has no attribute 'success_value'")
+    success_value: T | None = field(default=None)
+    error_value_: Error | None = field(default=None)
 
     @property
     def error_value(self) -> Error:
-        if isinstance(self.value, Error):
-            return self.value
-        else:
+        """Property exists purely for static type checkers.
+        Exposing a single attribute via a property is enough for type checking."""
+        if self.error_value is None:
             raise AttributeError(f"Instance of {type(self).__name__} has no attribute 'error_value'")
-
-    @classmethod
-    def from_success(cls, value: T) -> "Result[T]":
-        return cls(value=value)
-
-    @classmethod
-    def from_error(cls, error: Error) -> "Result[T]":
-        return cls(value=error)
+        return self.error_value

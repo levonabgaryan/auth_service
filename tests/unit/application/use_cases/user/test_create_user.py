@@ -24,6 +24,6 @@ async def test_create_user_use_case_with_valid_dto(dto_data: dict[str, str]) -> 
     result = await use_case.execute(valid_request_dto)
 
     # Assert
-    assert result.is_success
+    assert result.success_value
     user_repo.add.assert_called_once()
     password_hasher.hash_password.assert_called_once()

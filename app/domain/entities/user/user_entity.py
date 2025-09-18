@@ -15,8 +15,8 @@ class User(Entity):
     __hashed_password: str = field(init=False)
     __is_active: bool = field(default=False, init=False)
 
-    def __post_init__(self, email: str, hashed_password: str) -> None:
-        self.__email = email
+    def __post_init__(self, email_init: str, hashed_password: str) -> None:
+        self.__email = email_init
         self.__hashed_password = hashed_password
 
     def get_hashed_password_for_persistence(self) -> str:
